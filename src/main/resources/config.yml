@@ -1,0 +1,109 @@
+# =====================================================
+#  McInvest - ระบบลงทุนในเซิร์ฟเวอร์ Minecraft
+# =====================================================
+
+market:
+  # provider = แหล่งราคา
+  #   mock    -> ราคาปลอม สุ่มเดินแบบสมจริง ใช้เทสได้เลยไม่ต้องมี API key
+  #   finnhub -> ราคาจริงจากตลาดโลก (ต้องใส่ token ด้านล่าง)
+  provider: mock
+
+  # สมัครฟรีที่ https://finnhub.io/register แล้วเอา API key มาใส่ตรงนี้
+  # ฟรีได้ 60 ครั้ง/นาที ราคาดีเลย์ประมาณ 20 นาที (ในเกมไม่มีผลอะไร)
+  finnhub-token: ""
+
+  # ดึงราคาใหม่ทุกกี่นาที (อย่าตั้งต่ำกว่า 2 จะเปลืองโควตา API)
+  refresh-minutes: 5
+
+  # ตัวคูณแปลงราคา USD -> เงินในเกม
+  # เช่น GLD ราคา 300 USD ถ้าตั้ง 10.0 ในเกมจะเป็น 3,000 บาท/หน่วย
+  # ถ้าเซิร์ฟเงินเฟ้อมาก ปรับเลขนี้ขึ้น / ถ้าผู้เล่นเงินน้อย ปรับลง
+  currency-multiplier: 10.0
+
+  # ค่าธรรมเนียมซื้อขาย % (กันคนกดซื้อ-ขายรัวๆ เก็งกำไรจากช่องว่างราคา)
+  fee-percent: 1.0
+
+  # ปุ่มจำนวนที่ให้กดในเมนูซื้อขาย (รองรับทศนิยม = ซื้อเศษหน่วยได้)
+  trade-amounts: [0.1, 0.5, 1.0, 5.0]
+
+  # จำนวนขั้นต่ำต่อ 1 คำสั่ง
+  min-order: 0.01
+
+  # ให้ซื้อขายได้ไหมตอนตลาดปิด (เสาร์-อาทิตย์ / นอกเวลาทำการ)
+  # true  = ซื้อขายได้ ใช้ราคาปิดล่าสุด (แนะนำสำหรับเซิร์ฟเกม)
+  # false = ล็อกไม่ให้เทรด
+  allow-trade-when-closed: true
+
+  # หน่วงเวลาระหว่างการกดซื้อขายแต่ละครั้ง (มิลลิวินาที) กันสแปมคลิก
+  click-cooldown-ms: 400
+
+storage:
+  # บันทึกข้อมูลพอร์ตลงไฟล์ทุกกี่วินาที
+  autosave-seconds: 300
+
+# =====================================================
+#  รายการสินทรัพย์ที่เปิดให้ลงทุน
+# =====================================================
+#  symbol  = ticker ที่ใช้ดึงราคาจริง
+#  icon    = ไอเทมที่แสดงในเมนู (ชื่อ Material ของ Minecraft)
+#  base    = ราคาตั้งต้นตอนใช้โหมด mock (USD)
+#
+#  ทองกับน้ำมันใช้ ETF เป็นตัวแทน จะได้ยิง API เจ้าเดียวจบ:
+#    GLD = กองทุนทองคำ  |  SLV = กองทุนเงิน  |  USO = น้ำมันดิบ WTI
+# =====================================================
+assets:
+  gold:
+    symbol: GLD
+    display: "&e&lทองคำ &7(Gold)"
+    icon: GOLD_INGOT
+    base: 310.0
+  silver:
+    symbol: SLV
+    display: "&f&lเงิน &7(Silver)"
+    icon: IRON_INGOT
+    base: 42.0
+  oil:
+    symbol: USO
+    display: "&8&lน้ำมันดิบ &7(Crude Oil)"
+    icon: LAVA_BUCKET
+    base: 78.0
+  aapl:
+    symbol: AAPL
+    display: "&b&lApple"
+    icon: APPLE
+    base: 255.0
+  msft:
+    symbol: MSFT
+    display: "&9&lMicrosoft"
+    icon: PAPER
+    base: 480.0
+  nvda:
+    symbol: NVDA
+    display: "&a&lNVIDIA"
+    icon: EMERALD
+    base: 190.0
+  tsla:
+    symbol: TSLA
+    display: "&c&lTesla"
+    icon: MINECART
+    base: 340.0
+  googl:
+    symbol: GOOGL
+    display: "&d&lAlphabet &7(Google)"
+    icon: SPYGLASS
+    base: 210.0
+  amzn:
+    symbol: AMZN
+    display: "&6&lAmazon"
+    icon: CHEST
+    base: 230.0
+
+messages:
+  prefix: "&8[&aMcInvest&8] &r"
+  no-permission: "&cคุณไม่มีสิทธิ์ใช้คำสั่งนี้"
+  not-enough-money: "&cเงินไม่พอ ต้องใช้ &e%cost%"
+  not-enough-holding: "&cคุณถืออยู่ไม่พอที่จะขาย"
+  market-closed: "&cตอนนี้ตลาดปิดอยู่ ซื้อขายไม่ได้"
+  price-unavailable: "&cยังไม่มีข้อมูลราคา รอสักครู่แล้วลองใหม่"
+  bought: "&aซื้อ &e%asset% &aจำนวน &e%qty% &aหน่วย จ่ายไป &e%cost%"
+  sold: "&aขาย &e%asset% &aจำนวน &e%qty% &aหน่วย ได้รับ &e%amount%"

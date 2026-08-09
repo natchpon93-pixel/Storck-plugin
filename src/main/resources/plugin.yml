@@ -1,0 +1,21 @@
+name: McInvest
+version: '${project.version}'
+main: com.mcinvest.McInvest
+api-version: '1.21'
+author: MaiCoordinator
+description: ระบบลงทุนทอง น้ำมัน และหุ้น ตามราคาโลกจริง
+depend: [Vault]
+
+commands:
+  invest:
+    description: เปิดเมนูตลาดการลงทุน
+    usage: /invest [portfolio|price|reload]
+    aliases: [inv, market, ตลาด]
+
+permissions:
+  mcinvest.use:
+    description: ใช้งานเมนูลงทุนได้
+    default: true
+  mcinvest.admin:
+    description: reload config และดูข้อมูลระบบ
+    default: op
